@@ -13,22 +13,22 @@ class DARKSOULSPLAYGROUND_API UDsSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY()
+	TArray<TSoftObjectPtr<UObject>> StoredObjects;
+
 public:
-	UFUNCTION()
-		void StoreCrossLevelReference(UObject* ObjectToStore) 
+	UFUNCTION(BlueprintCallable)
+	void StoreCrossLevelReference(UObject* ObjectToStore) 
 	{ 
-		FSoftObjectPtr MyPointer(ObjectToStore);
-		ToBinary << ;
+		TSoftObjectPtr<UObject> objectToStoreSoftPtr(ObjectToStore);
+		StoredObjects.Add(objectToStoreSoftPtr);
 	}
 
-private:
-	FArchiveUObject ToBinary;
-
-
-	//UFUNCTION()
-	//	const TArray<FArchiveUObject> GetSoftObjects()
-	//{
-	//	// StoredObject
-	//}
+	UFUNCTION(BlueprintCallable)
+	const TArray<TSoftObjectPtr<UObject>> GetSoftObjects()
+	{
+		return StoredObjects;
+	}
 	
 };
